@@ -48,7 +48,7 @@ git clone https://github.com/pedro-g-neto/LMS-project-ifpb.git
 
 
 Acesse o diretório do projeto:
-cd SEU-REPOSITORIO
+cd LMS-project-ifpb
 
 Instale o Flask:
 pip install Flask
