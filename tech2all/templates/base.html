@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Tech2ALL - Aprenda Tecnologia{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header class="main-header">
+        <div class="container header-container">
+            <h1 class="logo"><a href="/">Tech2ALL</a></h1>
+            <nav class="main-nav">
+                <ul class="nav-links">
+                    <li><a href="/">Catálogo</a></li>
+                    <li><a href="/perfil">Meu Perfil</a></li>
+                    <li><a href="/sobre">Sobre</a></li>
+                    {% if current_user.is_admin %}
+                        <li><a href="/admin">Painel Admin</a></li>
+                    {% endif %}
+                    <li><a href="/login" class="btn-primary">Entrar</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="flash-messages container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </section>
+
+    <main class="main-content container">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer class="main-footer">
+        <div class="container footer-container">
+            <p>&copy; 2026 Tech2ALL. Projeto acadêmico.</p>
+            <p>Desenvolvido por: Pedro Gomes, João Freires e Emanuel Victor.</p>
+        </div>
+    </footer>
+</body>
+</html>
