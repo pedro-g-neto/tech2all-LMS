@@ -149,3 +149,19 @@ Quando a página é carregada
 Então o sistema deve exibir um texto explicativo sobre o escopo acadêmico do sistema
 E exibir as badges das tecnologias (HTML, CSS, Python, Flask)
 E listar os desenvolvedores responsáveis (Pedro Gomes, João Freires e Emanuel Victor) com links para seus respectivos perfis no GitHub.
+
+---
+
+### **5. Paleta de Cores do Projeto**
+
+Background Principal (#131B2F): Azul-meia-noite
+
+Superfícies e Cards (#1F2940): Um tom levemente mais claro que o fundo
+
+Texto Principal (#E2E8F0): Cinza-claro
+
+Ação e Destaque (#3B82F6): Azul vibrante para botões primários e links
+
+Sucesso e Progresso (#10B981): Verde-esmeralda para a barra de progresso e feedbacks positivos
+
+Erro e Alertas (#EF4444): Vermelho-suave
