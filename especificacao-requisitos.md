@@ -6,11 +6,11 @@
 
 ---
 
-Estudantes de Engenharia de Software desejam desenvolver um sistema denominado Tech2ALL, com o objetivo de centralizar e organizar conteúdos educacionais gratuitos sobre tecnologia disponíveis no YouTube, além de permitir o acompanhamento contínuo do progresso de estudo dos alunos. O portal deverá possuir uma página inicial contendo o catálogo de cursos da plataforma, além de acesso às principais funcionalidades do sistema. Nessa página deverão ser exibidos os cursos disponíveis agrupados por categorias (como Backend, Frontend, Dados) e subcategorias (como Java, Go, Python, Análise de Dados e Web Scraping), apresentando cards personalizados para cada playlist do YouTube, além de links de navegação.
+Estudantes de Engenharia de Software desejam desenvolver um sistema denominado Tech2ALL, com o objetivo de centralizar e organizar conteúdos educacionais gratuitos sobre tecnologia. O portal possuirá uma Landing Page (página inicial) contendo informações institucionais, apresentação dos benefícios da plataforma e botões de acesso para autenticação (Login e Cadastro).
 
-O sistema deverá permitir o gerenciamento individual de aprendizado. Usuários autenticados poderão clicar em um card de curso para acessar uma aba dedicada de reprodução. Nessa aba, será exibido o player de vídeo nativo do YouTube e uma lista com o cronograma de aulas do curso. Após assistir a um vídeo, o usuário poderá marcar aquela aula específica como concluída em seu painel.
+A partir da área logada, o sistema disponibilizará um Catálogo Dinâmico onde serão exibidos os cursos agrupados por categorias (como Backend, Frontend, Dados). Ao clicar em um card de curso, o usuário acessará uma página de Detalhes do Curso. Para otimizar a performance e a arquitetura, o consumo do conteúdo em vídeo ocorrerá externamente. A página de detalhes fornecerá um link de redirecionamento direto para a playlist nativa do YouTube.
 
-À medida que o aluno avança, o sistema deverá processar essa confirmação. Quanto mais aulas forem marcadas como concluídas, maior deverá ser a porcentagem preenchida na barra de progresso daquele curso exibida pelo sistema, avançando até completar 100%. Além disso, o portal deverá salvar o status de todas as aulas no banco de dados local (arquivo CSV), permitindo que os alunos consultem os cursos em andamento a qualquer momento. A visualização do catálogo e a área de cadastro e login devem ser acessadas a partir da página principal.
+Para o gerenciamento individual de aprendizado, a página de detalhes do curso contará com uma To-Do List (Checklist) interativa contendo o cronograma de aulas. Após assistir a um vídeo externamente, o usuário deverá marcar a aula específica como concluída em seu painel. À medida que o aluno avança, o sistema calculará a porcentagem da barra de progresso. Toda a persistência de dados (usuários, cursos e status das aulas) será realizada em um Banco de Dados Relacional (SQLite) integrado via Flask-SQLAlchemy.
 
 O portal também deverá disponibilizar uma página institucional sobre o projeto Tech2ALL, contendo informações sobre os desenvolvedores, o escopo da disciplina e as tecnologias utilizadas na implementação (HTML, CSS, Python e Flask). Outra funcionalidade esperada é uma página com o perfil do aluno, apresentando seus dados cadastrais básicos e um resumo geral informando quais cursos ele já iniciou e quais já foram finalizados dentro da plataforma.
 
@@ -28,14 +28,14 @@ O sistema deverá possuir dois perfis principais de acesso. O primeiro será o a
 | ID | Requisito | Descrição |
 | --- | --- | --- |
 | RF01 | Autenticação | O sistema deve permitir que o usuário realize login para acessar a área de membros. |
-| RF02 | Navegação por Temas | A página inicial deve listar cursos organizados por categorias (Backend, Frontend, Dados, etc.). |
-| RF03 | Visualização de Curso | O sistema deve permitir clicar em um card de curso e abrir a página de reprodução. |
-| RF04 | Reprodução de Vídeo | O sistema deve exibir o player do YouTube (iframe) e a lista de aulas da playlist. |
+| RF02 | Navegação por Temas e Landing Page | O sistema deve possuir uma página inicial pública (Landing Page) e uma rota protegida /catalogo que lista os cursos organizados por categorias. |
+| RF03 | Visualização de Curso | O sistema deve permitir clicar em um card e abrir uma página detalhada com a descrição do curso e o botão de redirecionamento externo para o YouTube. |
+| RF04 | Checklist de Aulas | O sistema deve exibir na página do curso uma lista de tarefas (To-Do list) com os nomes das aulas para acompanhamento manual. |
 | RF05 | Controle de Progresso | O usuário deve poder marcar uma aula como "concluída". |
-| RF06 | Persistência de Dados | O sistema deve salvar o status de conclusão de cada aula no arquivo `dados.csv`. |
+| RF06 | Persistência de Dados | O sistema deve salvar o catálogo, os usuários e o status de conclusão das aulas em um Banco de Dados relacional (SQLite). |
 | RF07 | Contato e feedback | Página “Sobre” com o link do Github do projeto e os devidos créditos. |
 | RF08 | Cadastro de Usuário | O sistema deve permitir que novos visitantes criem uma conta de acesso preenchendo um formulário com seus dados. |
-| RF09 | Gerenciamento de Catálogo (Admin) | O sistema deve possuir uma rota restrita onde um administrador consiga adicionar novos cursos ao CSV via formulário e visualizar os cursos existentes em uma tabela. |
+| RF09 | Gerenciamento de Catálogo (Admin) | O sistema deve possuir uma rota restrita onde um administrador consiga adicionar novos cursos ao banco de dados via formulário e visualizar os cursos existentes em uma tabela. |
 | RF10 | Feedback Visual (Sessões HTTP) | O sistema deve utilizar sessões para retornar notificações dinâmicas (mensagens de sucesso, erro ou alertas) após as ações do usuário. |
 | RF11 | Perfil do Aluno | O sistema deve exibir uma página contendo os dados cadastrais do aluno logado e um resumo de quais cursos foram iniciados e finalizados. |
 | RF12 | Tratamento de Exceções | O sistema deve validar as entradas de dados (como tentativa de login incorreto ou cadastro duplicado) e impedir operações inválidas, comunicando o erro de forma clara. |
@@ -65,14 +65,14 @@ Cenário 1: Cadastro realizado com sucesso
 Dado que o visitante acessa a rota de cadastro (/cadastro)
 Quando preenche o formulário com Nome, E-mail e Senha válidos
 E clica no botão de registrar
-Então o sistema deve salvar essas informações em uma nova linha no arquivo de persistência (ex: `usuarios.csv`)
+Então o sistema deve salvar essas informações em uma nova linha na tabela de usuários do banco de dados
 E redirecionar o usuário para a tela de login
 E exibir uma mensagem flash de sucesso informando "Conta criada! Faça seu login".
 
 Cenário 2: Tratamento de e-mail já existente
 
 Dado que o visitante acessa a rota de cadastro
-Quando preenche o formulário utilizando um e-mail que já consta no arquivo CSV
+Quando preenche o formulário utilizando um e-mail que já consta no banco de dados
 Então o sistema deve interromper a gravação
 E recarregar a página de cadastro exibindo uma mensagem flash de erro informando "Este e-mail já está em uso".
 
@@ -92,26 +92,32 @@ Quando insere credenciais incorretas
 Então o sistema deve retornar à página de login
 E exibir uma mensagem flash de erro informando "Credenciais inválidas".
 
-**UC03 - Navegação por Temas e Catálogo de Cursos**
+**UC03 - UC03 - Navegação na Landing Page e Acesso ao Catálogo**
 
 Como um Estudante, eu quero visualizar cursos por categoria para encontrar o conteúdo de meu interesse. (RF02)
 
 Dado que o estudante está devidamente autenticado.
 Quando o estudante acessa a rota principal '/'.
-Então o sistema deve ler o arquivo '`dados.csv`'.
-E exibir a tela inicial, utilizando laços de repetição para renderizar os cards dos cursos agrupados por categoria. E exibir imagens de capa e links de navegação para as aulas.
+Então o sistema deve ler o arquivo 'dados.csv'.
+E exibir a tela inicial, utilizando laços de repetição para renderizar os cards dos cursos agrupados por categoria.
+E exibir imagens de capa e links de navegação para as aulas.
 
-**[UC04] Player de Aula e Rastreamento de Progresso**
+**[UC04] Detalhes do Curso e Rastreamento de Progresso**
 
-Como um Estudante, eu quero acessar uma aba dedicada com o vídeo do curso e poder marcar as aulas como concluídas, para que o sistema calcule a barra do meu progresso. (RF04/RF05/RF06)
+Como um Estudante, eu quero acessar os detalhes de um curso para obter o link da playlist e marcar manualmente as aulas assistidas em uma checklist, para manter meu progresso atualizado. (RF03/RF04/RF06)
 
-Cenário 1: Atualização de progresso
+Cenário 1: Redirecionamento e Atualização de progresso
 
-Dado que o estudante está na página de reprodução de um curso
-E a barra de progresso atual exibe "0%"
-Quando o estudante clica no botão "Marcar Aula como Concluída"
-Então o sistema deve atualizar o status daquela aula no arquivo `dados.csv`
-E o sistema deve recalcular matematicamente o avanço
+Dado que o estudante acessa a página de detalhes de um curso específico
+
+Quando clica no botão "Assistir no YouTube"
+
+Então o sistema deve abrir a playlist em uma nova aba do navegador
+
+E Quando o estudante marca o checkbox de uma aula na To-Do list
+
+Então o sistema deve atualizar o campo concluida daquela aula no Banco de Dados
+
 E a página deve recarregar exibindo a barra de progresso preenchida proporcionalmente.
 
 **[UC05] Moderação de Catálogo (Painel Administrativo)**
@@ -123,7 +129,7 @@ Cenário 1: Cadastro de novo curso
 Dado que o administrador acessou o painel de controle
 Quando preenche o formulário com Título, Categoria e Link do YouTube
 E clica em salvar
-Então o sistema deve anexar as informações em uma nova linha no arquivo `dados.csv`
+Então o sistema deve anexar as informações em uma nova linha no banco de dados
 E a tabela de listagem HTML na mesma página deve ser atualizada para exibir o novo curso.
 
 **[UC06] Painel de Perfil do Aluno**
@@ -135,7 +141,7 @@ Cenário 1: Visualização do resumo de progresso
 Dado que o aluno está autenticado no sistema
 Quando acessa a rota do seu perfil (/perfil)
 Então o sistema deve ler os dados da sessão atual (Nome e E-mail)
-E o sistema deve varrer o arquivo de progresso (`dados.csv`) filtrando pelo usuário logado
+E o sistema deve varrer o progresso do usuário filtrando pelo usuário logado
 E exibir na tela a contagem total de cursos "Em Andamento" e cursos "Concluídos" (100%).
 
 **[UC07] Página Institucional (Sobre)**
