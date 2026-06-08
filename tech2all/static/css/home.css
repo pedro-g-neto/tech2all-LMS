@@ -1,7 +1,3 @@
-/* ==========================================================================
-   Estilos Específicos: index.html (Landing Page Visitantes)
-   ========================================================================== */
-
 /* Hero Section (Apresentação) */
 .hero-section {
     display: flex;
@@ -70,7 +66,7 @@
     background-color: rgba(255, 255, 255, 0.05);
 }
 
-/* Cards Flutuantes (Diagramação Visual) */
+/* Cards Flutuantes */
 .hero-visuals {
     flex: 1;
     position: relative;
@@ -100,22 +96,22 @@
     font-size: 0.875rem;
 }
 
-/* Posicionamento via CSS purista */
+
 .card-backend {
     top: 5%;
-    left: 5%;
+    left: 15%;
     animation-delay: 0s;
 }
 
 .card-frontend {
-    bottom: 10%;
-    right: 10%;
+    bottom: 5%;
+    left: 5%;
     animation-delay: 2s;
 }
 
 .card-dados {
-    top: 45%;
-    right: 0%;
+    top: 40%;
+    right: 10%;
     animation-delay: 4s;
 }
 
@@ -162,7 +158,6 @@
     font-size: 0.95rem;
 }
 
-/* Adaptação Mobile */
 @media (max-width: 900px) {
     .hero-section {
         flex-direction: column;

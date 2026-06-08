@@ -1,0 +1,153 @@
+.catalogo-header {
+    text-align: center;
+    margin-bottom: var(--spacing-lg);
+}
+
+.section-subtitle {
+    color: var(--text-secondary);
+    font-size: 1.125rem;
+}
+
+/* Agrupamento de Categorias */
+.categoria-section {
+    margin-bottom: 3rem;
+}
+
+.categoria-header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-sm);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.categoria-title {
+    font-size: 1.5rem;
+    color: var(--text-primary);
+}
+
+.categoria-count {
+    background-color: var(--bg-surface);
+    color: var(--text-secondary);
+    padding: 0.2rem 0.6rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+/* Grid de Cards */
+.cursos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--spacing-lg);
+}
+
+/* Estrutura do Card */
+.curso-card {
+    background-color: var(--bg-surface);
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    overflow: hidden;
+    text-decoration: none;
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.curso-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--action-color);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Container de Imagem e Interação */
+.curso-image {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    position: relative;
+    background-color: #0f1423;
+    overflow: hidden;
+}
+
+.curso-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.image-fallback {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--bg-surface), #131B2F);
+    color: var(--text-secondary);
+    font-weight: bold;
+    font-size: 1.5rem;
+    opacity: 0.5;
+}
+
+.curso-card:hover .curso-image img {
+    transform: scale(1.05);
+}
+
+.overlay-play {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.curso-card:hover .overlay-play {
+    opacity: 1;
+}
+
+/* Informações do Card */
+.curso-info {
+    padding: var(--spacing-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    flex: 1;
+}
+
+.curso-titulo {
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    line-height: 1.4;
+    font-weight: 600;
+}
+
+/* Badges Dinâmicos por Categoria */
+.badge {
+    align-self: flex-start;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--text-secondary);
+}
+
+.badge-backend {
+    background-color: rgba(59, 130, 246, 0.15); /* Azul */
+    color: #60A5FA;
+}
+
+.badge-frontend {
+    background-color: rgba(16, 185, 129, 0.15); /* Verde */
+    color: #34D399;
+}
+
+.badge-dados {
+    background-color: rgba(139, 92, 246, 0.15); /* Roxo */
+    color: #A78BFA;
+}
