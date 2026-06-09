@@ -36,7 +36,8 @@ def catalogo():
             'id': curso.id,
             'titulo': curso.titulo,
             'categoria': curso.categoria,
-            'url_youtube': curso.url_youtube
+            'url_youtube': curso.url_youtube,
+            'url_capa': curso.url_capa
         } for curso in cursos_db
     ]
     
