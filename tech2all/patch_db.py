@@ -12,11 +12,12 @@ def atualizar_banco():
         print("A coluna 'url_capa' provavelmente já existe.")
 
     # 2. Atualiza as capas dos cursos
+   # 2. Atualiza as capas dos cursos originais
     atualizacoes = [
-        ("https://i.ytimg.com/vi/wC_mwNUT48s/hqdefault.jpg?sqp=-oaymwEXCNACELwBSFryq4qpAwkIARUAAIhCGAE=&rs=AOn4CLBpep7ian3cwG7_0y9m6FyYe1WamA", 1),
-        ("https://i.ytimg.com/vi/-twvgnfOnVQ/hqdefault.jpg?sqp=-oaymwEXCNACELwBSFryq4qpAwkIARUAAIhCGAE=&rs=AOn4CLD-B47XrbnHf29yQ5RzGGUXMyH9DQ", 2),
-        ("https://i.ytimg.com/vi/bCFTv8a59PE/hqdefault.jpg?sqp=-oaymwEXCNACELwBSFryq4qpAwkIARUAAIhCGAE=&rs=AOn4CLD_9yoL6lokKr68f1M-r4PlMEUSYA", 3),
-        ("https://i.ytimg.com/vi/oz_rZ92Tmls/hqdefault.jpg?sqp=-oaymwEXCNACELwBSFryq4qpAwkIARUAAIhCGAE=&rs=AOn4CLBdB87Vzx_0G9P1AOjmIT_g9bgWIg", 4)
+        ("https://img.youtube.com/vi/wC_mwNUT48s/maxresdefault.jpg", 1),
+        ("https://img.youtube.com/vi/-twvgnfOnVQ/maxresdefault.jpg", 2),
+        ("https://img.youtube.com/vi/bCFTv8a59PE/maxresdefault.jpg", 3),
+        ("https://img.youtube.com/vi/oz_rZ92Tmls/maxresdefault.jpg", 4)
     ]
     
     cursor.executemany("UPDATE cursos SET url_capa = ? WHERE id = ?", atualizacoes)
