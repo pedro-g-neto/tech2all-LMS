@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}Catálogo de Cursos - Tech2ALL{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/catalogo.css') }}">
+
+<section class="catalogo-header">
+    <h1 class="section-title">Explore o Catálogo</h1>
+    <p class="section-subtitle">Escolha uma trilha e continue evoluindo.</p>
+</section>
+
+{% for categoria, cursos_da_categoria in cursos|groupby('categoria') %}
+<section class="categoria-section">
+    
+    <div class="categoria-header">
+        <h2 class="categoria-title">{{ categoria }}</h2>
+        <span class="categoria-count">{{ cursos_da_categoria|length }} curso(s)</span>
+    </div>
+
+    <div class="cursos-grid">
+        {% for curso in cursos_da_categoria %}
+        <a href="/detalhes/{{ curso.id }}" class="curso-card">
+            
+            <div class="curso-image">
+                {% if curso.url_capa %}
+                    <img src="{{ curso.url_capa }}" alt="Capa do curso {{ curso.titulo }}" loading="lazy">
+                {% else %}
+                    <div class="image-fallback">
+                        <span>Tech2ALL</span>
+                    </div>
+                {% endif %}
+                
+                <div class="overlay-play">
+                    <svg viewBox="0 0 24 24" width="48" height="48" fill="white"><path d="M8 5v14l11-7z"/></svg>
+                </div>
+            </div>
+
+            <div class="curso-info">
+                <span class="badge badge-{{ categoria|lower }}">{{ curso.categoria }}</span>
+                <h3 class="curso-titulo">{{ curso.titulo }}</h3>
+            </div>
+            
+        </a>
+        {% endfor %}
+    </div>
+
+</section>
+{% endfor %}
+
+{% endblock %}
