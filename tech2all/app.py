@@ -20,8 +20,7 @@ class MockUser:
     def __init__(self):
         self.is_admin = False
 
-
-@app.route('/')
+@app.route("/")
 def home():
     usuario_falso = MockUser()
     return render_template('home.html', current_user=usuario_falso)
@@ -45,6 +44,11 @@ def catalogo():
 
     return render_template('catalogo.html', cursos=lista_cursos, current_user=usuario_falso)
 
+@app.route("/sobre")
+def render_sobre():
+    return render_template("sobre.html", current_user = MockUser())
+
+
 if __name__ == '__main__':
-    
+
     app.run(debug=True)

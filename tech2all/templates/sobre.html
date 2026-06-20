@@ -1,10 +1,13 @@
 {% extends 'base.html' %}
 {% block title %} Sobre o projeto -Tech2All {% endblock %}
-
+{% block links %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sobre.css') }}"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <!-- Esse filename eu deixo assim mesmo? -->
+{% endblock %}
 {% block content %}
-    <link rel="stylesheet" href="sobre.css">
     <section class="logo">
-        <h1>Tech<span class="text-flicker-in-glow">4</span>All</h1>
+        <h1>Tech<span class="text-flicker-in-glow">2</span>All</h1>
         <p>Seu curso de tecnologia</p>
     </section>
     <section class="sobre">
@@ -32,10 +35,68 @@
         <h2>Tecologias utilizadas</h2>
         <p>Este projeto foi desenvolvido com tecnologia python, html5, css3 e flask.</p>
     </section>
-{% endblock %}
-<!-- </body>
-<footer>
-    <p>&copy; All rights reserved, 2026.1 IFPB</p>
-</footer>
-</html> Isso aqui vai para o lixo, já que tem a base do base.html -->
 
+    <section class="equipe">
+        <h2>Integrates</h2>
+
+        <div class="integrantes">
+
+            <!--JOÃO-->
+            <div class="joao">
+                <img src="tech2all/static/css/joão.jpeg" alt="João Freires">
+                <h3>João Freires</h3>
+                <p class="legenda">Fullstack developer</p>
+                <ul>
+                    <li>
+                        <a href="">E-mail</a>
+                        <i class="fa-solid fa-envelope"></i>
+                    </li>  
+                    <li>
+                        <a href="">GitHub</a>
+                        <i class="fa-brands fa-github"></i>                       
+                    </li>
+                </ul>
+            </div>
+
+            <!--PEDRO-->
+            <div>
+                <img src="tech2all/static/css/pedro.jpg" alt="Pedro Gomes">
+                <h3>Pedro Gomes</h3>
+                <p class="legenda">Fullstack developer</p>
+                <ul>
+                    <li>
+                        <a href="">E-mail</a>
+                        <i class="fa-solid fa-envelope"></i>                       
+                    </li>  
+                    <li>
+                        <a href="">GitHub</a>
+                        <i class="fa-brands fa-github"></i>
+                    </li>
+                </ul>
+            </div>
+
+            <!--EMANUEL-->
+            <div>
+                <img src="tech2all/static/css/emanuel.jpg" alt="Emanuel Victor">
+                <h3>Emanuel Victor</h3>
+                <p class="legenda">Fullstack developer</p>
+                <ul>
+                    <li>
+                        <a href="emanuel.saturnino@academico.ifpb.edu.br">
+                        <i class="fa-solid fa-envelope"></i>
+                            E-mail
+                        </a>
+                    </li>
+                    <li>
+                        <a href="" target="_blank">
+                        <i class="fa-brands fa-github"></i>
+                        GitHub
+                        </a>
+                    </li>  
+                </ul>
+            </div>
+
+        </div>
+    </section>
+
+{% endblock %}
