@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ curso.titulo }} - Detalhes{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/detalhes.css') }}">
+
+<div class="detalhes-container">
+    
+    <aside class="curso-sidebar">
+        <div class="preview-capa">
+            {% if curso.url_capa %}
+                <img src="{{ curso.url_capa }}" alt="Capa de {{ curso.titulo }}">
+            {% else %}
+                <div class="fallback-capa"><span>Tech2ALL</span></div>
+            {% endif %}
+        </div>
+
+        <div class="sidebar-info">
+            <span class="badge badge-{{ curso.categoria|lower }}">{{ curso.categoria }}</span>
+            <h1 class="curso-nome">{{ curso.titulo }}</h1>
+            
+            <a href="{{ curso.url_youtube }}" target="_blank" rel="noopener noreferrer" class="btn-playlist">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                Abrir Playlist no YouTube
+            </a>
+        </div>
+    </aside>
+
+    <section class="playlist-progresso">
+        
+        <div class="progress-container">
+            <div class="progress-text">
+                <h3>Seu Progresso</h3>
+                <span class="progress-percentage">{{ porcentagem_conclusao }}%</span>
+            </div>
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill" style="width: {{ porcentagem_conclusao }}%;"></div>
+            </div>
+        </div>
+
+        <div class="checklist-card">
+            <h3>Cronograma de Aulas</h3>
+            <p class="checklist-subtitle">{{ curso.qtd_aulas }} aulas disponíveis</p>
+
+            <form action="/detalhes/{{ curso.id }}/atualizar-progresso" method="POST" class="checklist-form">
+                <ul class="lessons-list">
+                    {% for i in range(1, curso.qtd_aulas + 1) %}
+                    <li class="lesson-item">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="aula_{{ i }}" value="concluida" 
+                                   {% if i in aulas_concluidas %} checked {% endif %}
+                                   onchange="this.form.submit()">
+                            <span class="custom-checkbox"></span>
+                            <span class="lesson-text">Aula {{ "%02d"|format(i) }}</span>
+                        </label>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </form>
+        </div>
+
+    </section>
+</div>
+{% endblock %}
