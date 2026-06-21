@@ -45,6 +45,11 @@ def catalogo():
 
     return render_template('catalogo.html', cursos=lista_cursos, current_user=usuario_falso)
 
+@app.route('/sobre')
+def sobre():
+    usuario_falso = MockUser()
+    return render_template('sobre.html', current_user=usuario_falso)
+
 if __name__ == '__main__':
     
     app.run(debug=True)
