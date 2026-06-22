@@ -9,7 +9,7 @@
 </head>
 <body>
     <header class="main-header">
-        <div class="container header-container">
+        <div class="container header-container"> 
             <h1 class="logo"><a href="/">Tech2ALL</a></h1>
             <nav class="main-nav">
                 <ul class="nav-links">
@@ -25,7 +25,7 @@
         </div>
     </header>
 
-    <section class="flash-messages container">
+    <section class="flash-messages container"><!-- O QUE ESSA SECTION FAZ? -->
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for category, message in messages %}
@@ -37,7 +37,7 @@
         {% endwith %}
     </section>
 
-    <main class="main-content container">
+    <main class="main-content container"> <!--Pq o conteúdo só começa aq?-->
         {% block content %}
         {% endblock %}
     </main>
