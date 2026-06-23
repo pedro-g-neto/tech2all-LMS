@@ -7,31 +7,25 @@
 @keyframes text-flicker-in-glow{0%{opacity:0}10%{opacity:0;text-shadow:none}10.1%{opacity:1;text-shadow:none}10.2%{opacity:0;text-shadow:none}20%{opacity:0;text-shadow:none}20.1%{opacity:1;text-shadow:0 0 30px rgba(255,255,255,.25)}20.6%{opacity:0;text-shadow:none}30%{opacity:0;text-shadow:none}30.1%{opacity:1;text-shadow:0 0 30px rgba(255,255,255,.45),0 0 60px rgba(255,255,255,.25)}30.5%{opacity:1;text-shadow:0 0 30px rgba(255,255,255,.45),0 0 60px rgba(255,255,255,.25)}30.6%{opacity:0;text-shadow:none}45%{opacity:0;text-shadow:none}45.1%{opacity:1;text-shadow:0 0 30px rgba(255,255,255,.45),0 0 60px rgba(255,255,255,.25)}50%{opacity:1;text-shadow:0 0 30px rgba(255,255,255,.45),0 0 60px rgba(255,255,255,.25)}55%{opacity:1;text-shadow:0 0 30px rgba(255,255,255,.45),0 0 60px rgba(255,255,255,.25)}55.1%{opacity:0;text-shadow:none}57%{opacity:0;text-shadow:none}57.1%{opacity:1;text-shadow:0 0 30px rgba(255,255,255,.55),0 0 60px rgba(255,255,255,.35)}60%{opacity:1;text-shadow:0 0 30px rgba(255,255,255,.55),0 0 60px rgba(255,255,255,.35)}60.1%{opacity:0;text-shadow:none}65%{opacity:0;text-shadow:none}65.1%{opacity:1;text-shadow:0 0 30px rgba(255,255,255,.55),0 0 60px rgba(255,255,255,.35),0 0 100px rgba(255,255,255,.1)}75%{opacity:1;text-shadow:0 0 30px rgba(255,255,255,.55),0 0 60px rgba(255,255,255,.35),0 0 100px rgba(255,255,255,.1)}75.1%{opacity:0;text-shadow:none}77%{opacity:0;text-shadow:none}77.1%{opacity:1;text-shadow:0 0 30px rgba(255,255,255,.55),0 0 60px rgba(255,255,255,.4),0 0 110px rgba(255,255,255,.2),0 0 100px rgba(255,255,255,.1)}85%{opacity:1;text-shadow:0 0 30px rgba(255,255,255,.55),0 0 60px rgba(255,255,255,.4),0 0 110px rgba(255,255,255,.2),0 0 100px rgba(255,255,255,.1)}85.1%{opacity:0;text-shadow:none}86%{opacity:0;text-shadow:none}86.1%{opacity:1;text-shadow:0 0 30px rgba(255,255,255,.6),0 0 60px rgba(255,255,255,.45),0 0 110px rgba(255,255,255,.25),0 0 100px rgba(255,255,255,.1)}100%{opacity:1;text-shadow:0 0 30px rgba(255,255,255,.6),0 0 60px rgba(255,255,255,.45),0 0 110px rgba(255,255,255,.25),0 0 100px rgba(255,255,255,.1)}}
 .text-flicker-in-glow { animation: text-flicker-in-glow 5s ease both; }
 
-/* ----------------------------------------------
- * Configurações Base e Variáveis
- * ---------------------------------------------- */
-/* Container Centralizador */
 .container-sobre {
     max-width: 1000px;
     margin: 0 auto;
     padding: 2rem 1rem;
     display: flex;
     flex-direction: column;
-    gap: 4rem; /* Distância limpa entre seções */
+    gap: 4rem; 
 }
 
 /* Títulos Globais de Seção */
-h2 {
+.container-sobre h2 {
     font-size: 2rem;
     color: #3B82F6; /* Azul vibrante de ação */
     margin-bottom: 1.5rem;
     position: relative;
 }
 
-/* ----------------------------------------------
- * Hero / Logo Section
- * ---------------------------------------------- */
-.logo {
+
+.logotipo {
     display: flex;
     flex-direction: column;
     text-align: center;
@@ -39,17 +33,17 @@ h2 {
     padding: 5rem 1rem 3rem 1rem;
 }
 
-.logo h1 {
+.logotipo h1 {
     font-size: 3.5rem;
     font-family: "Bruno Ace SC", sans-serif;
     letter-spacing: 2px;
 }
 
-.logo h1 span {
+.logotipo h1 span {
     color: #2563EB;
 }
 
-.logo p {
+.logotipo p {
     font-size: 1.2rem;
     color: #10B981; /* Verde-esmeralda para sucesso/progresso */
     margin-top: 0.5rem;
@@ -57,9 +51,6 @@ h2 {
     letter-spacing: 1px;
 }
 
-/* ----------------------------------------------
- * Card Sobre (Com imagem de topo)
- * ---------------------------------------------- */
 .sobre-card {
     background-color: #1F2940; /* Superfície mais clara */
     border-radius: 12px;
