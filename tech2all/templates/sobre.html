@@ -1,102 +1,89 @@
 {% extends 'base.html' %}
-{% block title %} Sobre o projeto -Tech2All {% endblock %}
+{% block title %} Sobre o projeto - Tech2All {% endblock %}
 {% block links %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/sobre.css') }}"> 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-    <!-- Esse filename eu deixo assim mesmo? -->
 {% endblock %}
+
 {% block content %}
     <section class="logo">
         <h1>Tech<span class="text-flicker-in-glow">2</span>All</h1>
         <p>Seu curso de tecnologia</p>
     </section>
-    <section class="sobre">
-        <!-- isso dese estar dentro de um card com a imagem dos cursos acima dele -->
-        <h2>Sobre</h2>
-        <p>
-            O Tech4All é um projeto acadêmico pensado para facilitar o acesso ao aprendizado de tecnologias voltadas ao desenvolvimento web. 
-        </p>
-        <p>
-            Para isso, a plataforma oferece uma trilha de cursos introdutórios a engenharia de software. A sequência é pensada para poder ser consumida de forma fluida e complementar (Visto que o conteúdo de cada curso se completa, construindo, assim, uma boa base de conhecimentos de programação). Por meio disso, o aluno deve tornar-se capaz de dar seus primeiros passos como um desenvolvedor em formação.
-        </p>
-    </section>
-    <section class="plano">
-        <h2>Objetivos</h2>
-        <div class="objetivos">
-            <div class="obj">
-                <p>Através de cursos progressivos de python, javaScript, html e css3, o aluno deve ser capaz de criar projetos, de sua preferência, com html semântico, um visual atrativo e sistema de rotas funcional.</p>
+
+    <main class="container-sobre">
+        
+        <section class="sobre-card">
+            <div class="card-banner"></div>
+            <div class="card-body">
+                <h2>Sobre o Projeto</h2>
+                <p>
+                    O Tech2All é um projeto acadêmico pensado para facilitar o acesso ao aprendizado de tecnologias voltadas ao desenvolvimento web. 
+                </p>
+                <p>
+                    Para isso, a plataforma oferece uma trilha de cursos introdutórios à engenharia de software. A sequência é pensada para poder ser consumida de forma fluida e complementar, visto que o conteúdo de cada curso se completa, construindo uma boa base de conhecimentos de programação. Por meio disso, o aluno torna-se capaz de dar seus primeiros passos como um desenvolvedor em formação.
+                </p>
             </div>
-            <div>
-                <img src="hal-gatewood-8MBd4rAgJ-c-unsplash.jpg" alt="Objetivos">
+        </section>
+
+        <section class="plano">
+            <h2>Objetivos</h2>
+            <div class="objetivos-grid">
+                <div class="obj-texto">
+                    <p>Através de cursos progressivos de Python, JavaScript, HTML5 e CSS3, o aluno será capaz de criar projetos de sua preferência, utilizando HTML semântico, visual atrativo e um sistema de rotas funcional.</p>
+                </div>
+                <div class="obj-img">
+                    <img src="{{ url_for('static', filename='img/hal-gatewood-8MBd4rAgJ-c-unsplash.jpg') }}" alt="Ilustração de Desenvolvimento">
+                </div>
             </div>
-        </div>
-    </section>
-    <section class="tecnologias">
-        <h2>Tecologias utilizadas</h2>
-        <p>Este projeto foi desenvolvido com tecnologia python, html5, css3 e flask.</p>
-    </section>
+        </section>
 
-    <section class="equipe">
-        <h2>Integrates</h2>
+        <section class="tecnologias">
+            <h2>Tecnologias Utilizadas</h2>
+            <p>Este projeto foi desenvolvido utilizando as seguintes tecnologias: <strong>Python</strong>, <strong>HTML5</strong>, <strong>CSS3</strong> e o micro-framework <strong>Flask</strong>.</p>
+        </section>
 
-        <div class="integrantes">
+        <section class="equipe">
+            <h2>Integrantes</h2>
+            <div class="integrantes-grid">
 
-            <!--JOÃO-->
-            <div class="joao">
-                <img src="tech2all/static/css/joão.jpeg" alt="João Freires">
-                <h3>João Freires</h3>
-                <p class="legenda">Fullstack developer</p>
-                <ul>
-                    <li>
-                        <a href="">E-mail</a>
-                        <i class="fa-solid fa-envelope"></i>
-                    </li>  
-                    <li>
-                        <a href="">GitHub</a>
-                        <i class="fa-brands fa-github"></i>                       
-                    </li>
-                </ul>
+                <article class="integrante-card">
+                    <div class="image">
+                        <img src="{{ url_for('static', filename='img/joão.jpeg') }}" alt="João Freires">
+                    </div>
+                    <h3>João Freires</h3>
+                    <p class="legenda">Fullstack Developer</p>
+                    <div class="redes-sociais">
+                        <a href="#" class="btn-rede"><i class="fa-solid fa-envelope"></i> E-mail</a>
+                        <a href="#" class="btn-rede"><i class="fa-brands fa-github"></i> GitHub</a>
+                    </div>
+                </article>
+
+                <article class="integrante-card">
+                    <div class="image">
+                        <img src="{{ url_for('static', filename='img/pedro.jpg') }}" alt="Pedro Gomes">
+                    </div>
+                    <h3>Pedro Gomes</h3>
+                    <p class="legenda">Fullstack Developer</p>
+                    <div class="redes-sociais">
+                        <a href="#" class="btn-rede"><i class="fa-solid fa-envelope"></i> E-mail</a>
+                        <a href="#" class="btn-rede"><i class="fa-brands fa-github"></i> GitHub</a>
+                    </div>
+                </article>
+
+                <article class="integrante-card">
+                    <div class="image">
+                        <img src="{{ url_for('static', filename='img/emanuel.jpg') }}" alt="Emanuel Victor">
+                    </div>
+                    <h3>Emanuel Victor</h3>
+                    <p class="legenda">Fullstack Developer</p>
+                    <div class="redes-sociais">
+                        <a href="mailto:emanuel.saturnino@academico.ifpb.edu.br" class="btn-rede"><i class="fa-solid fa-envelope"></i> E-mail</a>
+                        <a href="#" target="_blank" class="btn-rede"><i class="fa-brands fa-github"></i> GitHub</a>
+                    </div>
+                </article>
+
             </div>
-
-            <!--PEDRO-->
-            <div>
-                <img src="tech2all/static/css/pedro.jpg" alt="Pedro Gomes">
-                <h3>Pedro Gomes</h3>
-                <p class="legenda">Fullstack developer</p>
-                <ul>
-                    <li>
-                        <a href="">E-mail</a>
-                        <i class="fa-solid fa-envelope"></i>                       
-                    </li>  
-                    <li>
-                        <a href="">GitHub</a>
-                        <i class="fa-brands fa-github"></i>
-                    </li>
-                </ul>
-            </div>
-
-            <!--EMANUEL-->
-            <div>
-                <img src="tech2all/static/css/emanuel.jpg" alt="Emanuel Victor">
-                <h3>Emanuel Victor</h3>
-                <p class="legenda">Fullstack developer</p>
-                <ul>
-                    <li>
-                        <a href="emanuel.saturnino@academico.ifpb.edu.br">
-                        <i class="fa-solid fa-envelope"></i>
-                            E-mail
-                        </a>
-                    </li>
-                    <li>
-                        <a href="" target="_blank">
-                        <i class="fa-brands fa-github"></i>
-                        GitHub
-                        </a>
-                    </li>  
-                </ul>
-            </div>
-
-        </div>
-    </section>
-
+        </section>
+    </main>
 {% endblock %}
