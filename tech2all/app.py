@@ -8,7 +8,7 @@ import csv
 from datetime import datetime
 from functools import wraps
 from flask import abort
-from dotenv import load_workbook, load_dotenv
+from dotenv import load_dotenv
 
 load_dotenv()
 app = Flask(__name__)
