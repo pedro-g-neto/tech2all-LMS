@@ -1,6 +1,8 @@
 # app.py
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash
 from models import db, Curso, ProgressoUsuario, Usuario
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 import os
 
 app = Flask(__name__)
@@ -12,22 +14,80 @@ app.config['SECRET_KEY'] = '$2a$12$ngQe9ooDjGtU57gaKxKCauCjaGDDx3YCHXb2mXZEQ9QKZ
 
 db.init_app(app)
 
+# CONFIGURAÇÃO DO FLASK-LOGIN
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login' # Rota de login
+login_manager.login_message = 'Por favor, faça login para acessar esta página.'
+login_manager.login_message_category = 'error'
+
+# Função que recarrega o usuário a cada requisição
+@login_manager.user_loader
+def load_user(usuario_id):
+    return Usuario.query.get(int(usuario_id))
+
 
 with app.app_context():
     db.create_all()
 
-# Mock temporário para evitar erros no Jinja2 do base.html
-class MockUser:
-    def __init__(self):
-        self.is_admin = False
+@app.route('/cadastro', methods = ['GET', 'POST'])
+def cadastro():
+    if current_user.is_authenticated:
+        return redirect(url_for('catalogo'))
+    if request.method =='POST':
+        nome = request.form.get('nome')
+        email = request.form.get('email')
+        senha = request.form.get('senha')
+
+        #Validação de email existente no banco
+        usuario_existente = Usuario.query.filter_by(email=email).first()
+        if usuario_existente:
+            flash('Este e-mail já está em uso. Tente fazer login.', 'error')
+            return redirect(url_for('cadastro'))
+        #Criação de usuário com senha criptografada
+        senha_hash = generate_password_hash(senha)
+        novo_usuario = Usuario(nome=nome, email=email, senha=senha_hash)
+        db.session.add(novo_usuario)
+        db.session.commit()
+        flash('Conta criada com sucesso! Faça seu login.', 'success')
+        return redirect(url_for('login'))
+    
+    return render_template('cadastro.html')
+
+@app.route('/login', methods = ['GET', 'POST'])
+def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('catalogo'))
+    if request.method == 'POST':
+        email = request.form.get('email')
+        senha = request.form.get('senha')
+
+        #Busca usuário pelo e-mail
+        usuario = Usuario.query.filter_by(email=email).first()
+
+        if usuario and check_password_hash(usuario.senha, senha):
+            login_user(usuario)
+            return redirect(url_for('catalogo'))
+        else:
+            flash('E-mail ou senha incorretos.', 'error')
+            return redirect(url_for('login'))
+    return render_template('login.html')
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('home'))
 
 @app.route("/")
 def home():
-    usuario_falso = MockUser()
-    return render_template('home.html', current_user=usuario_falso)
+    if current_user.is_authenticated:
+        return redirect(url_for('catalogo'))
+    return render_template('home.html')
 
 
 @app.route('/catalogo')
+@login_required
 def catalogo():
     
     cursos_db = Curso.query.all()
@@ -41,23 +101,20 @@ def catalogo():
         } for curso in cursos_db
     ]
     
-    usuario_falso = MockUser()
 
-    return render_template('catalogo.html', cursos=lista_cursos, current_user=usuario_falso)
+    return render_template('catalogo.html', cursos=lista_cursos)
 
 @app.route('/sobre')
 def sobre():
-    usuario_falso = MockUser()
-    return render_template('sobre.html', current_user=usuario_falso)
+    return render_template('sobre.html')
 
 # RENDERIZAR A PÁGINA COM A BARRA DE PROGRESSO
 @app.route('/detalhes/<int:curso_id>')
+@login_required
 def detalhes_curso(curso_id):
     curso = Curso.query.get_or_404(curso_id)
     
-    usuario_falso = MockUser()
-    # MOCK: Simulando o ID do usuário logado (depois trocar por current_user.id)
-    usuario_id = 1 
+    usuario_id = current_user.id
     
     # Busca no banco quais números de aula este usuário já concluiu neste curso
     progressos = ProgressoUsuario.query.filter_by(usuario_id=usuario_id, curso_id=curso_id).all()
@@ -74,13 +131,14 @@ def detalhes_curso(curso_id):
     return render_template('detalhes.html', 
                            curso=curso, 
                            aulas_concluidas=aulas_concluidas,
-                           porcentagem_conclusao=porcentagem_conclusao,
-                           current_user=usuario_falso)
+                           porcentagem_conclusao=porcentagem_conclusao)
 
 # RECEBER O CLIQUE DO CHECKBOX E SALVAR NO BANCO
 @app.route('/detalhes/<int:curso_id>/atualizar-progresso', methods=['POST'])
+@login_required
 def atualizar_progresso(curso_id):
-    usuario_id = 1 # MOCK: ID do usuário logado
+    #Pega o id de quem clicou no checkbox
+    usuario_id = current_user.id
     
     # Limpa o progresso atual (para evitar duplicações ou aulas desmarcadas)
     ProgressoUsuario.query.filter_by(usuario_id=usuario_id, curso_id=curso_id).delete()
@@ -105,15 +163,6 @@ def atualizar_progresso(curso_id):
     # 4. Recarrega a página de detalhes para a barra de progresso atualizar visualmente
     return redirect(url_for('detalhes_curso', curso_id=curso_id))
 
-@app.route('/login')
-def login():
-    usuario_falso = MockUser()
-    return render_template('login.html', current_user=usuario_falso)
-
-@app.route('/cadastro')
-def cadastro():
-    usuario_falso = MockUser()
-    return render_template('cadastro.html', current_user=usuario_falso)
 
 if __name__ == '__main__':
 
