@@ -136,6 +136,43 @@ def catalogo():
 def sobre():
     return render_template('sobre.html')
 
+#PÁGINA DE PERFIL
+@app.route('/perfil')
+@login_required
+def perfil():
+    usuario_id = current_user.id
+    
+    #Busca todos os cursos cadastrados na plataforma
+    todos_cursos = Curso.query.all()
+    
+    total_em_andamento = 0
+    total_concluidos = 0
+    
+    # Varre o progresso para cada curso filtrando pelo usuário logado (RF11)
+    for curso in todos_cursos:
+        # Conta quantas aulas o usuário concluiu NESTE curso específico
+        aulas_concluidas = ProgressoUsuario.query.filter_by(
+            usuario_id=usuario_id, 
+            curso_id=curso.id
+        ).count()
+        
+        # Regra de negócio para definir o status do curso
+        if aulas_concluidas > 0:
+            if aulas_concluidas >= curso.qtd_aulas:
+                total_concluidos += 1
+            else:
+                total_em_andamento += 1
+                
+    # Registrar no log de auditoria que ele acessou a página
+    registrar_log_csv("ACESSO_PERFIL", current_user.email)
+    
+    # Renderiza o template enviando as variáveis para o Jinja
+    return render_template(
+        'perfil.html', 
+        total_em_andamento=total_em_andamento, 
+        total_concluidos=total_concluidos
+    )
+
 # RENDERIZAR A PÁGINA COM A BARRA DE PROGRESSO
 @app.route('/detalhes/<int:curso_id>')
 @login_required

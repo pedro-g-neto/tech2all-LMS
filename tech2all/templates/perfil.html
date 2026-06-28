@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Tech2ALL - Meu Perfil{% endblock %}
+
+{% block links %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/perfil.css') }}">
+{% endblock %}
+
+{% block content %}
+    <main class="main-content">
+        
+        <section class="profile-card">
+            <div class="profile-avatar">
+                <span class="avatar-text">U</span>
+            </div>
+            <div class="profile-info">
+                <h1>{{ current_user.nome }}</h1>
+                <p>{{ current_user.email }}</p>
+                <span class="badge-autenticado">Aluno Autenticado</span>
+            </div>
+        </section>
+
+        <section class="dashboard-section">
+            <h2>Resumo de Progresso</h2>
+            
+            <div class="dashboard-grid">
+                <div class="status-card current">
+                    <div class="status-data">
+                        <h3>Em Andamento</h3>
+                        <p class="counter">{{ total_em_andamento }}</p>
+                    </div>
+                </div>
+
+                <div class="status-card completed">
+                    <div class="status-data">
+                        <h3>Concluídos</h3>
+                        <p class="counter">{{ total_concluidos }}</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+{% endblock %}
