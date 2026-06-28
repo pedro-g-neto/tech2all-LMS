@@ -1,0 +1,108 @@
+/* Card de informações cadastrais */
+.profile-card {
+    background-color: var(--bg-surface);
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+}
+
+.profile-avatar {
+    background-color: var(--bg-primary);
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.profile-info h1 {
+    font-size: 1.5rem;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-sm);
+}
+
+.profile-info p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    margin-bottom: var(--spacing-sm);
+}
+
+.badge-autenticado {
+    background-color: rgba(16, 185, 129, 0.15); /* Verde sutil usando sua cor de sucesso */
+    color: var(--success-color);
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    display: inline-block;
+}
+
+/* Seção do Dashboard de progresso */
+.dashboard-section h2 {
+    font-size: 1.25rem;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-md);
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-md);
+}
+
+/* Cards de Status do Progresso */
+.status-card {
+    background-color: var(--bg-surface);
+    padding: var(--spacing-md) var(--spacing-lg);
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.status-icon {
+    font-size: 2rem;
+}
+
+.status-data h3 {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.status-data .counter {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--text-primary);
+    line-height: 1.2;
+}
+
+/* Bordas coloridas para indicar o status do curso */
+.status-card.current {
+    border-left: 4px solid var(--action-color);
+}
+
+.status-card.completed {
+    border-left: 4px solid var(--success-color);
+}
+
+/* Responsividade para a grade de cards do perfil */
+@media (max-width: 600px) {
+    .profile-card {
+        flex-direction: column;
+        text-align: center;
+        padding: var(--spacing-md);
+    }
+    
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+}
