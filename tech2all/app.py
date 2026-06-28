@@ -4,6 +4,8 @@ from models import db, Curso, ProgressoUsuario, Usuario
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 import os
+import csv
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -30,6 +32,28 @@ def load_user(usuario_id):
 with app.app_context():
     db.create_all()
 
+# FUNÇÃO DE AUDITORIA
+def registrar_log_csv(acao, email):
+    # Salva o arquivo na mesma pasta do projeto
+    caminho_arquivo = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'acessos_tech2all.csv')
+    
+    # Verifica se o arquivo já existe para decidir se precisa escrever o cabeçalho
+    arquivo_existe = os.path.isfile(caminho_arquivo)
+    
+    # adiciona linhas no final do arquivo
+    with open(caminho_arquivo, mode='a', newline='', encoding='utf-8') as arquivo:
+        escritor = csv.writer(arquivo, delimiter=';')
+        
+        # Se for a primeira vez, cria as colunas
+        if not arquivo_existe:
+            escritor.writerow(['Data/Hora', 'Acao', 'Email_Usuario'])
+            
+        # Pega o horário do evento
+        agora = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+        
+        # Escreve a nova linha de log
+        escritor.writerow([agora, acao, email])
+
 @app.route('/cadastro', methods = ['GET', 'POST'])
 def cadastro():
     if current_user.is_authenticated:
@@ -49,6 +73,7 @@ def cadastro():
         novo_usuario = Usuario(nome=nome, email=email, senha=senha_hash)
         db.session.add(novo_usuario)
         db.session.commit()
+        registrar_log_csv("NOVO_CADASTRO", email)
         flash('Conta criada com sucesso! Faça seu login.', 'success')
         return redirect(url_for('login'))
     
@@ -67,15 +92,18 @@ def login():
 
         if usuario and check_password_hash(usuario.senha, senha):
             login_user(usuario)
+            registrar_log_csv("LOGIN_REALIZADO", email)
             return redirect(url_for('catalogo'))
         else:
             flash('E-mail ou senha incorretos.', 'error')
+            registrar_log_csv("FALHA_DE_LOGIN", email)
             return redirect(url_for('login'))
     return render_template('login.html')
 
 @app.route('/logout')
 @login_required
 def logout():
+    registrar_log_csv("LOGOUT", current_user.email)
     logout_user()
     return redirect(url_for('home'))
 
