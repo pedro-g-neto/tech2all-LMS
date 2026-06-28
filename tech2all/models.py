@@ -1,14 +1,17 @@
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import UserMixin
 
 db = SQLAlchemy()
 
 # TABELA DE USUÁRIOS
-class Usuario(db.Model):
+class Usuario(UserMixin,db.Model):
     __tablename__ = 'usuarios'
+    
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(100), nullable=False)
     senha = db.Column(db.String(100), nullable=False)
+    is_admin = db.Column(db.Boolean, default=False)
 
 # TABELA DE PROGRESSO
 class ProgressoUsuario(db.Model):

@@ -1,0 +1,127 @@
+/* Wrapper para centralizar o card vertical e horizontalmente */
+.auth-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+    padding: var(--spacing-lg) 0;
+}
+
+.auth-card {
+    background-color: var(--bg-surface);
+    width: 100%;
+    max-width: 400px; /* Mantém o formulário estreito */
+    padding: 2.5rem;
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.auth-header {
+    text-align: center;
+    margin-bottom: var(--spacing-lg);
+}
+
+.auth-header h2 {
+    color: var(--text-primary);
+    font-size: 1.75rem;
+    margin-bottom: 0.5rem;
+}
+
+.auth-header p {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+/* Estrutura dos Formulários */
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-group label {
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+/* Customização dos Inputs de Texto/Senha/Email */
+.form-group input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background-color: #0f1423; /* Fundo mais escuro para criar profundidade no input */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    font-family: var(--font-main);
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Estado de foco no input */
+.form-group input:focus {
+    outline: none;
+    border-color: var(--action-color);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+/* Placeholder */
+.form-group input::placeholder {
+    color: var(--text-secondary);
+    opacity: 0.5;
+}
+
+/* Botão em bloco */
+.btn-block {
+    width: 100%;
+    margin-top: var(--spacing-sm);
+    padding: 0.85rem;
+    font-size: 1.05rem;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.btn-block:active {
+    transform: scale(0.98);
+}
+
+/* Rodapé do form */
+.auth-footer {
+    margin-top: var(--spacing-lg);
+    text-align: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding-top: var(--spacing-md);
+}
+
+.auth-footer p {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.auth-footer a {
+    color: var(--action-color);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.auth-footer a:hover {
+    text-decoration: underline;
+}
+
+/* Responsividade */
+@media (max-width: 480px) {
+    .auth-card {
+        padding: 1.5rem;
+        border: none;
+        box-shadow: none;
+        background-color: transparent;
+    }
+}

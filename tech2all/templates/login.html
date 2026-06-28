@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}Login - Tech2ALL{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
+
+<div class="auth-wrapper">
+    <div class="auth-card">
+        <div class="auth-header">
+            <h2>Bem-vindo de volta</h2>
+            <p>Faça login para continuar seus estudos.</p>
+        </div>
+
+        <form action="/login" method="POST" class="auth-form">
+            <div class="form-group">
+                <label for="email">E-mail</label>
+                <input type="email" id="email" name="email" placeholder="seu@email.com" required>
+            </div>
+
+            <div class="form-group">
+                <label for="senha">Senha</label>
+                <input type="password" id="senha" name="senha" placeholder="••••••••" required>
+            </div>
+
+            <button type="submit" class="btn-primary btn-block">Entrar</button>
+        </form>
+
+        <div class="auth-footer">
+            <p>Ainda não tem uma conta? <a href="/cadastro">Cadastre-se aqui</a>.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -105,6 +105,16 @@ def atualizar_progresso(curso_id):
     # 4. Recarrega a página de detalhes para a barra de progresso atualizar visualmente
     return redirect(url_for('detalhes_curso', curso_id=curso_id))
 
+@app.route('/login')
+def login():
+    usuario_falso = MockUser()
+    return render_template('login.html', current_user=usuario_falso)
+
+@app.route('/cadastro')
+def cadastro():
+    usuario_falso = MockUser()
+    return render_template('cadastro.html', current_user=usuario_falso)
+
 if __name__ == '__main__':
 
     app.run(debug=True)
