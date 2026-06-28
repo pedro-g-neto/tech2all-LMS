@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+
+{% block title %}Painel de Moderação - Tech2ALL{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+
+<div class="admin-header">
+    <h1>Painel de Administração</h1>
+    <p>Gerencie o catálogo de cursos e os privilégios de usuários.</p>
+</div>
+
+<div class="admin-dashboard">
+    
+    <section class="admin-section form-section">
+        <div class="section-title">
+            <h2>Cadastrar Novo Curso</h2>
+        </div>
+        
+        <form action="/admin/novo" method="POST" class="admin-form">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="titulo">Título do Curso</label>
+                    <input type="text" id="titulo" name="titulo" placeholder="Ex: API Rest com Python e Flask" required>
+                </div>
+                <div class="form-group">
+                    <label for="categoria">Categoria</label>
+                    <select id="categoria" name="categoria" required>
+                        <option value="">Selecione...</option>
+                        <option value="Backend">Backend</option>
+                        <option value="Frontend">Frontend</option>
+                        <option value="Dados">Dados</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="url_youtube">URL da Playlist (YouTube)</label>
+                    <input type="url" id="url_youtube" name="url_youtube" placeholder="https://youtube.com/playlist?list=..." required>
+                </div>
+                <div class="form-group">
+                    <label for="url_capa">URL da Capa (Thumbnail)</label>
+                    <input type="url" id="url_capa" name="url_capa" placeholder="Link da imagem da capa">
+                </div>
+                <div class="form-group slim">
+                    <label for="qtd_aulas">Qtd. Aulas</label>
+                    <input type="number" id="qtd_aulas" name="qtd_aulas" min="1" required>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-primary">Salvar Curso no Banco</button>
+        </form>
+    </section>
+
+    <section class="admin-section table-section">
+        <div class="section-title">
+            <h2>Catálogo Atual</h2>
+        </div>
+        
+        <div class="table-responsive">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Título</th>
+                        <th>Categoria</th>
+                        <th>Aulas</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for curso in cursos %}
+                    <tr>
+                        <td>#{{ curso.id }}</td>
+                        <td>{{ curso.titulo }}</td>
+                        <td><span class="badge badge-{{ curso.categoria|lower }}">{{ curso.categoria }}</span></td>
+                        <td>{{ curso.qtd_aulas }}</td>
+                        <td>
+                            <form action="/admin/excluir/{{ curso.id }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir este curso?');">
+                                <button type="submit" class="btn-danger btn-sm">Excluir</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="5" class="empty-state">Nenhum curso cadastrado ainda.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="admin-section table-section">
+        <div class="section-title">
+            <h2>Gerenciamento de Usuários</h2>
+        </div>
+        
+        <div class="table-responsive">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>E-mail</th>
+                        <th>Nível</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for usuario in usuarios %}
+                    <tr>
+                        <td>#{{ usuario.id }}</td>
+                        <td>{{ usuario.nome }}</td>
+                        <td>{{ usuario.email }}</td>
+                        <td>
+                            {% if usuario.is_admin %}
+                                <span class="badge badge-admin">Administrador</span>
+                            {% else %}
+                                <span class="badge badge-aluno">Aluno</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if not usuario.is_admin %}
+                            <form action="/admin/tornar-admin/{{ usuario.id }}" method="POST" onsubmit="return confirm('Tornar este usuário um administrador?');">
+                                <button type="submit" class="btn-success btn-sm">Tornar Admin</button>
+                            </form>
+                            {% else %}
+                                <span class="text-muted">Acesso Total</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="5" class="empty-state">Nenhum usuário encontrado.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+</div>
+{% endblock %}

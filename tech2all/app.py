@@ -6,6 +6,8 @@ from flask_login import LoginManager, login_user, logout_user, login_required, c
 import os
 import csv
 from datetime import datetime
+from functools import wraps
+from flask import abort
 
 app = Flask(__name__)
 
@@ -227,6 +229,75 @@ def atualizar_progresso(curso_id):
     
     # 4. Recarrega a página de detalhes para a barra de progresso atualizar visualmente
     return redirect(url_for('detalhes_curso', curso_id=curso_id))
+# --- DECORADOR PARA PROTEGER ROTAS DE ADMIN ---
+def admin_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        # Se não estiver logado ou não for admin, retorna erro 403 (Proibido)
+        if not current_user.is_authenticated or not current_user.is_admin:
+            abort(403)
+        return f(*args, **kwargs)
+    return decorated_function
+
+@app.route('/admin')
+@login_required
+@admin_required
+def painel_admin():
+    cursos_db = Curso.query.all()
+    usuarios_db = Usuario.query.all()
+
+    return render_template('admin.html', cursos=cursos_db, usuarios=usuarios_db)
+
+@app.route('/admin/novo', methods=['POST'])
+@login_required
+@admin_required
+def admin_novo_curso():
+    titulo = request.form.get('titulo')
+    categoria = request.form.get('categoria')
+    url_youtube = request.form.get('url_youtube')
+    url_capa = request.form.get('url_capa')
+    qtd_aulas = request.form.get('qtd_aulas', type=int)
+
+    novo_curso = Curso(
+        titulo=titulo,
+        categoria=categoria,
+        url_youtube=url_youtube,
+        url_capa=url_capa,
+        qtd_aulas=qtd_aulas
+    )
+    db.session.add(novo_curso)
+    db.session.commit()
+
+    flash('Curso adicionado com sucesso!', 'success')
+    return redirect(url_for('painel_admin'))
+
+@app.route('/admin/excluir/<int:id>', methods=['POST'])
+@login_required
+@admin_required
+def admin_excluir_curso(id):
+    curso = Curso.query.get_or_404(id)
+    #Apagando o progresso dos alunos para não dar erro
+    ProgressoUsuario.query.filter_by(curso_id=id).delete()
+
+    db.session.delete(curso)
+    db.session.commit()
+
+    flash('Curso excluído com sucesso!', 'success')
+    return redirect(url_for('painel_admin'))
+
+@app.route('/admin/tornar-admin/<int:id>', methods=['POST'])
+@login_required
+@admin_required
+def admin_promover_usuario(id):
+    usuario = Usuario.query.get_or_404(id)
+
+    if not usuario.is_admin:
+        usuario.is_admin = True
+        db.session.commit()
+        flash(f'Agora {usuario.nome} é um administrador.', 'success')
+    else:
+        flash('Este usuário já é administrador.', 'info')
+    return redirect(url_for('painel_admin'))
 
 
 if __name__ == '__main__':

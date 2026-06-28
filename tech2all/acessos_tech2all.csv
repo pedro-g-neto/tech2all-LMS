@@ -1,5 +1,15 @@
 Data/Hora;Acao;Email_Usuario
 28/06/2026 01:39:35;LOGIN_REALIZADO;pedro.neto.5@academico.ifpb.edu.br
 28/06/2026 01:39:47;LOGOUT;pedro.neto.5@academico.ifpb.edu.br
-28/06/2026 13:13:51;FALHA_DE_LOGIN;emanuel.saturnino@academico.ifpb.edu.br
-28/06/2026 13:14:20;FALHA_DE_LOGIN;emanuel.saturnino@academico.ifpb.edu.br
+
+28/06/2026 03:28:18;LOGIN_REALIZADO;pedro.neto.5@academico.ifpb.edu.br
+28/06/2026 03:45:06;LOGOUT;pedro.neto.5@academico.ifpb.edu.br
+28/06/2026 03:46:19;NOVO_CADASTRO;emanuel.saturnino@academico.ifpb.edu.br
+28/06/2026 03:46:35;LOGIN_REALIZADO;emanuel.saturnino@academico.ifpb.edu.br
+28/06/2026 03:47:13;LOGOUT;emanuel.saturnino@academico.ifpb.edu.br
+28/06/2026 03:47:22;LOGIN_REALIZADO;emanuel.saturnino@academico.ifpb.edu.br
+28/06/2026 03:47:33;LOGOUT;emanuel.saturnino@academico.ifpb.edu.br
+28/06/2026 03:47:43;LOGIN_REALIZADO;pedro.neto.5@academico.ifpb.edu.br
+28/06/2026 03:52:29;LOGOUT;pedro.neto.5@academico.ifpb.edu.br
+28/06/2026 03:52:46;LOGIN_REALIZADO;emanuel.saturnino@academico.ifpb.edu.br
+>>>>>>> eeea16870720da2a2359a9c19bcad5ece49d9be0
