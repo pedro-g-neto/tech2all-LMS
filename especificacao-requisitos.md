@@ -32,7 +32,7 @@ O sistema deverá possuir dois perfis principais de acesso. O primeiro será o a
 | RF03 | Visualização de Curso | O sistema deve permitir clicar em um card e abrir uma página detalhada com a descrição do curso e o botão de redirecionamento externo para o YouTube. |
 | RF04 | Checklist de Aulas | O sistema deve exibir na página do curso uma lista de tarefas (To-Do list) com os nomes das aulas para acompanhamento manual. |
 | RF05 | Controle de Progresso | O usuário deve poder marcar uma aula como "concluída". |
-| RF06 | Persistência de Dados | O sistema deve salvar o catálogo, os usuários e o status de conclusão das aulas em um Banco de Dados relacional (SQLite). |
+| RF06 | Persistência de Dados | O sistema deve salvar o catálogo, os usuários e o status de conclusão das aulas em um Banco de Dados relacional (SQLite) e registrar logs do usuário em arquivo csv. |
 | RF07 | Contato e feedback | Página “Sobre” com o link do Github do projeto e os devidos créditos. |
 | RF08 | Cadastro de Usuário | O sistema deve permitir que novos visitantes criem uma conta de acesso preenchendo um formulário com seus dados. |
 | RF09 | Gerenciamento de Catálogo (Admin) | O sistema deve possuir uma rota restrita onde um administrador consiga adicionar novos cursos ao banco de dados via formulário e visualizar os cursos existentes em uma tabela. |
@@ -91,6 +91,11 @@ Dado que o usuário acessa a rota de login
 Quando insere credenciais incorretas
 Então o sistema deve retornar à página de login
 E exibir uma mensagem flash de erro informando "Credenciais inválidas".
+
+Cenário 3: Logout
+Dado que o usuário está autenticado e acessa a rota de perfil
+Quando acessa a rota de logout
+Então o sistema realiza o logout do usuário e registra o log
 
 **UC03 - UC03 - Navegação na Landing Page e Acesso ao Catálogo**
 

@@ -1,4 +1,3 @@
-# app.py
 from flask import Flask, render_template, request, redirect, url_for, flash
 from models import db, Curso, ProgressoUsuario, Usuario
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -15,7 +14,7 @@ app = Flask(__name__)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('SQLALCHEMY_DATABASE_URI', 'sqlite:///tech2all.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'chave_padrao_super_secreta_caso_env_fina')
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'chave_padrao_')
 
 
 db.init_app(app)
@@ -23,7 +22,7 @@ db.init_app(app)
 # CONFIGURAÇÃO DO FLASK-LOGIN
 login_manager = LoginManager()
 login_manager.init_app(app)
-login_manager.login_view = 'login' # Rota de login
+login_manager.login_view = 'login'
 login_manager.login_message = 'Por favor, faça login para acessar esta página.'
 login_manager.login_message_category = 'error'
 
@@ -38,24 +37,18 @@ with app.app_context():
 
 # FUNÇÃO DE AUDITORIA
 def registrar_log_csv(acao, email):
-    # Salva o arquivo na mesma pasta do projeto
     caminho_arquivo = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'acessos_tech2all.csv')
     
-    # Verifica se o arquivo já existe para decidir se precisa escrever o cabeçalho
     arquivo_existe = os.path.isfile(caminho_arquivo)
     
-    # adiciona linhas no final do arquivo
     with open(caminho_arquivo, mode='a', newline='', encoding='utf-8') as arquivo:
         escritor = csv.writer(arquivo, delimiter=';')
         
-        # Se for a primeira vez, cria as colunas
         if not arquivo_existe:
             escritor.writerow(['Data/Hora', 'Acao', 'Email_Usuario'])
             
-        # Pega o horário do evento
         agora = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
         
-        # Escreve a nova linha de log
         escritor.writerow([agora, acao, email])
 
 @app.route('/cadastro', methods = ['GET', 'POST'])
@@ -67,12 +60,11 @@ def cadastro():
         email = request.form.get('email')
         senha = request.form.get('senha')
 
-        #Validação de email existente no banco
         usuario_existente = Usuario.query.filter_by(email=email).first()
         if usuario_existente:
             flash('Este e-mail já está em uso. Tente fazer login.', 'error')
             return redirect(url_for('cadastro'))
-        #Criação de usuário com senha criptografada
+
         senha_hash = generate_password_hash(senha)
         novo_usuario = Usuario(nome=nome, email=email, senha=senha_hash)
         db.session.add(novo_usuario)
@@ -91,7 +83,6 @@ def login():
         email = request.form.get('email')
         senha = request.form.get('senha')
 
-        #Busca usuário pelo e-mail
         usuario = Usuario.query.filter_by(email=email).first()
 
         if usuario and check_password_hash(usuario.senha, senha):
@@ -146,31 +137,24 @@ def sobre():
 def perfil():
     usuario_id = current_user.id
     
-    #Busca todos os cursos cadastrados na plataforma
     todos_cursos = Curso.query.all()
     
     total_em_andamento = 0
     total_concluidos = 0
     
-    # Varre o progresso para cada curso filtrando pelo usuário logado (RF11)
     for curso in todos_cursos:
-        # Conta quantas aulas o usuário concluiu NESTE curso específico
         aulas_concluidas = ProgressoUsuario.query.filter_by(
             usuario_id=usuario_id, 
             curso_id=curso.id
         ).count()
         
-        # Regra de negócio para definir o status do curso
+        # definir o status do curso
         if aulas_concluidas > 0:
             if aulas_concluidas >= curso.qtd_aulas:
                 total_concluidos += 1
             else:
                 total_em_andamento += 1
-                
-    # Registrar no log de auditoria que ele acessou a página
     registrar_log_csv("ACESSO_PERFIL", current_user.email)
-    
-    # Renderiza o template enviando as variáveis para o Jinja
     return render_template(
         'perfil.html', 
         total_em_andamento=total_em_andamento, 
@@ -188,10 +172,7 @@ def detalhes_curso(curso_id):
     # Busca no banco quais números de aula este usuário já concluiu neste curso
     progressos = ProgressoUsuario.query.filter_by(usuario_id=usuario_id, curso_id=curso_id).all()
     
-    # Transforma os objetos em uma lista para o Jinja ler
     aulas_concluidas = [p.aula_numero for p in progressos]
-    
-    # Calcula a porcentagem
     if curso.qtd_aulas > 0:
         porcentagem_conclusao = int((len(aulas_concluidas) / curso.qtd_aulas) * 100)
     else:
@@ -206,19 +187,16 @@ def detalhes_curso(curso_id):
 @app.route('/detalhes/<int:curso_id>/atualizar-progresso', methods=['POST'])
 @login_required
 def atualizar_progresso(curso_id):
-    #Pega o id de quem clicou no checkbox
     usuario_id = current_user.id
     
-    # Limpa o progresso atual (para evitar duplicações ou aulas desmarcadas)
+    # Limpa o progresso atual pra evitar duplicações ou aulas desmarcadas
     ProgressoUsuario.query.filter_by(usuario_id=usuario_id, curso_id=curso_id).delete()
     
-    # O request.form traz um dicionário só com as aulas marcadas
+    # dicionário com as aulas marcadas
     for chave in request.form:
         if chave.startswith('aula_'):
-            # Extrai o número da string "aula_3" -> 3
             numero_aula = int(chave.split('_')[1])
             
-            # Cria o novo registro no banco
             novo_progresso = ProgressoUsuario(
                 usuario_id=usuario_id,
                 curso_id=curso_id,
@@ -226,16 +204,14 @@ def atualizar_progresso(curso_id):
             )
             db.session.add(novo_progresso)
     
-    # 3. Salva as alterações
     db.session.commit()
     
-    # 4. Recarrega a página de detalhes para a barra de progresso atualizar visualmente
     return redirect(url_for('detalhes_curso', curso_id=curso_id))
 # --- DECORADOR PARA PROTEGER ROTAS DE ADMIN ---
 def admin_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        # Se não estiver logado ou não for admin, retorna erro 403 (Proibido)
+        # Se não estiver logado ou não for admin, retorna erro 403
         if not current_user.is_authenticated or not current_user.is_admin:
             abort(403)
         return f(*args, **kwargs)
@@ -278,7 +254,7 @@ def admin_novo_curso():
 @admin_required
 def admin_excluir_curso(id):
     curso = Curso.query.get_or_404(id)
-    #Apagando o progresso dos alunos para não dar erro
+    #Apagando o progresso dos alunos pra não dar erro
     ProgressoUsuario.query.filter_by(curso_id=id).delete()
 
     db.session.delete(curso)
