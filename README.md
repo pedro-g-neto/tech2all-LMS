@@ -45,7 +45,7 @@ O **Tech2ALL** é um Sistema de Gestão de Aprendizagem (LMS) simplificado onde 
 * [Especificação de Requisitos](./especificacao-requisitos.md)
 * [Diagrama Arquitetural](./Diagrama%20Arquitetural%20Tech2ALL.pdf)
 * [Imagem do Diagrama de Casos de Uso](./DiagramaUC.drawio.png)
-* [Mermaid](./codigomermaidUC.txt)
+* [Mermaid](./codigomermaidUC.md)
 
 ## Equipe
 | Nomes |
