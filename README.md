@@ -71,7 +71,7 @@ tech2all-LMS/tech2all
  │   │   ├── perfil.css     # Folha de estilo do perfil do usuário
  │   │   ├── sobre.css      # Folha de estilo do About
  │   │   └── style.css      # Folha de estilo da base
- │   └── images/           # Imagens e favicon
+ │   └── images/            # Imagens e favicon
  ├── templates/
  │   ├── admin.html       # Painel administrativo  
  │   ├── base.html        # Template base 
@@ -82,9 +82,13 @@ tech2all-LMS/tech2all
  │   ├── login.html       # Formulário de Login
  │   ├── perfil.html      # Perfil do usuário
  │   └── sobre.html       # Sobre o projeto
-├── .gitignore                     # Arquivos ignorados pelo Git
-├── especificacao-requisitos.md    # Especificação de requisitos do projeto
-└── README.md                      # Documentação do projeto
+├── .gitignore                            # Arquivos ignorados pelo Git
+├── Diagrama Arquitetural Tech2ALL.pdf    # Arquitetura do projeto
+├── DiagramaUC.drawio.png                 # Diagrama de Casos de Uso
+├── README.md                             # Documentação do projeto
+├── codigomermaidUC.md                    # Código mermaid para renderização de diagrama UC
+├── especificacao-requisitos.md           # Especificação de requisitos do projeto
+└── requirements.txt                      # Requirements
 ```
 
 ## Como executar localmente
