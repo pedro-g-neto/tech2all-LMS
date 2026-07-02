@@ -1,3 +1,4 @@
+```
 flowchart LR
     %% Atores
     V(["👤 Visitante"])
@@ -42,3 +43,4 @@ flowchart LR
     style A fill:#131B2F,stroke:#fffff,color:#E2E8F0
     style Admin fill:#131B2F,stroke:#fffff,color:#E2E8F0
     style YT fill:#EF4444,stroke:#fff,color:#fff
+    ```
